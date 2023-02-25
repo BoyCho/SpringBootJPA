@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     // 회원 가입
     public Long join(Member member) {

@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static javax.persistence.FetchType.*;
@@ -35,19 +36,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status; // 주문상태 [ORDER, CANCLE]
 
-    // 연관 관계 편의 메서드
-
-    /*
-        public static void main(String[] args) {
-        Member member = new Member();
-        Order order = new Order();
-
-        member.getOrders().add(order);
-        order.setMember(member);
-    }*/
-    // 양방향 연관 관계를 위해 위와 같은 비즈니스 로직의 경우, 실수가 있을 수 있다.
-    // 때문에 이러한 일이 없도록 아래와 같이 작성한다.
-
+    //== 연관관계 메서드 ==//
     public void setMember(Member member) {
         this.member = member;
         member.getOrders().add(this);
@@ -63,4 +52,31 @@ public class Order {
         delivery.setOrder(this);
     }
 
+    //== 생성 메서드 ==//
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+        Order order = new Order();
+
+        order.setMember(member);
+        order.setDelivery(delivery);
+        Arrays.stream(orderItems).forEach(order::addOrderItem);
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+
+        return order;
+    }
+    //== 비즈니스 로직 ==//
+    /**  주문 취소  **/
+    public void cancel() {
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("이미 배송 완료된 상품은 취소가 불가능합니다.");
+        }
+        setStatus(OrderStatus.CANCLE);
+        orderItems.forEach(OrderItem::cancel);
+    }
+
+    //== 조회 로직 ==//
+    /** 전체 주문 가격 조회 **/
+    public int getTotalPrice() {
+        return orderItems.stream().mapToInt(OrderItem::getTotalPrice).sum();
+    }
 }

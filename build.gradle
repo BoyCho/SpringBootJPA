@@ -24,8 +24,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-devtools'
 
-	//SQL Logging Library
+	// SQL Logging Library
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
+
+	// NotEmpty 어노테이션 사용을 위한 Library
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	testImplementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'

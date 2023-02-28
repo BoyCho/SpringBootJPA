@@ -4,11 +4,8 @@ import jpabook.jpashop.domain.*;
 import jpabook.jpashop.domain.item.*;
 import jpabook.jpashop.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.LifecycleState;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)

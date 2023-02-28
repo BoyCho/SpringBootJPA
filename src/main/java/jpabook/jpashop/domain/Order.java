@@ -27,7 +27,7 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delevery_id")
     private Delivery delivery;
 
@@ -64,6 +64,7 @@ public class Order {
 
         return order;
     }
+
     //== 비즈니스 로직 ==//
     /**  주문 취소  **/
     public void cancel() {

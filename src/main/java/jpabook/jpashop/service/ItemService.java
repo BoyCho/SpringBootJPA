@@ -20,6 +20,17 @@ public class ItemService {
         itemRepository.save(item);
     }
 
+    /** Dirty Checking **/
+    @Transactional
+    public void updateItem(Long itemId, String name, int price, int stockQuantity) {
+        Item findItem = itemRepository.findOne(itemId);
+
+        /** set()도 수정해주자 **/
+        findItem.setName(name);
+        findItem.setPrice(price);
+        findItem.setStockQuantity(stockQuantity);
+    }
+
     public List<Item> findItems() {
         return itemRepository.findAll();
     }

@@ -1,2 +1,1 @@
-# SpringPractice
-Spring 복습
+# SpringBoot + JPA

@@ -9,12 +9,44 @@ import net.bytebuddy.asm.Advice;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class MemberApiController {
 
     private final MemberService memberService;
+
+    // 회원 조회
+    @GetMapping("/api/v1/members")
+    public List<Member> membersV1() {
+        return memberService.findMembers();
+    }
+
+    @GetMapping("/api/v2/members")
+    public Result membersV2() {
+        List<Member> members = memberService.findMembers();
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+
+        for (Member member : members)
+            memberDTOList.add(new MemberDTO(member.getId(), member.getName()));
+
+        return new Result(memberDTOList);
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class MemberDTO {
+        private Long id;
+        private String name;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class Result<T> {
+        private T data;
+    }
 
     // 회원 등록
     @PostMapping("/api/v1/members")
@@ -72,4 +104,5 @@ public class MemberApiController {
         private Long id;
         private String name;
     }
+
 }

@@ -25,6 +25,17 @@ public class MemberService {
         return member.getId();
     }
 
+    // 회원 정보 수정
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = memberRepository.findOne(id);
+
+        // 더티 체킹 활용
+        member.setName(name);
+
+        // 반환x : command와 query 분리
+    }
+
     private void validateDuplicatedMember(Member member) {
         List<Member> findMembers = memberRepository.findByName(member.getName());
         if (!findMembers.isEmpty()) {

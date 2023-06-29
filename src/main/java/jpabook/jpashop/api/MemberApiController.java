@@ -32,7 +32,7 @@ public class MemberApiController {
         for (Member member : members)
             memberDTOList.add(new MemberDTO(member.getId(), member.getName()));
 
-        return new Result(memberDTOList);
+        return new Result(memberDTOList.size(), memberDTOList);
     }
 
     @Data
@@ -45,6 +45,7 @@ public class MemberApiController {
     @Data
     @AllArgsConstructor
     public static class Result<T> {
+        private int count;
         private T data;
     }
 
